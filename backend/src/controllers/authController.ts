@@ -1,19 +1,18 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import User from '../models/User';
 
 // Gerar token JWT
 const generateToken = (userId: string): string => {
   const jwtSecret = process.env.JWT_SECRET || 'default_secret';
-  const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '7d';
-  
- return jwt.sign(
-  { userId },
-  jwtSecret,
-  { expiresIn: jwtExpiresIn as any }
-);
 
+  const options: SignOptions = {
+    expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as SignOptions['expiresIn']
+  };
+
+  return jwt.sign({ userId }, jwtSecret, options);
 };
+
 
 // Registro de novo usuário (admin)
 export const register = async (req: Request, res: Response): Promise<void> => {
