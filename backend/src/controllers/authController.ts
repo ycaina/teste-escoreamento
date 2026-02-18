@@ -7,7 +7,12 @@ const generateToken = (userId: string): string => {
   const jwtSecret = process.env.JWT_SECRET || 'default_secret';
   const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '7d';
   
-  return jwt.sign({ userId }, jwtSecret, { expiresIn: jwtExpiresIn });
+ return jwt.sign(
+  { userId },
+  jwtSecret,
+  { expiresIn: jwtExpiresIn as any }
+);
+
 };
 
 // Registro de novo usuário (admin)
